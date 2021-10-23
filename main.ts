@@ -1,3 +1,7 @@
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Food, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.fire, 500)
+    info.changeLifeBy(1)
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
@@ -27,6 +31,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     scene.cameraShake(4, 500)
     info.changeLifeBy(-1)
 })
+let food1: Sprite = null
 let bogey: Sprite = null
 let projectile: Sprite = null
 let spacePlane: Sprite = null
@@ -207,4 +212,27 @@ game.onUpdateInterval(500, function () {
     bogey.setVelocity(-100, 0)
     bogey.setPosition(160, randint(5, 115))
     bogey.setFlag(SpriteFlag.AutoDestroy, true)
+})
+game.onUpdateInterval(randint(1000, 60000), function () {
+    food1 = sprites.create(img`
+        . . . . . . b b b b a a . . . . 
+        . . . . b b d d d 3 3 3 a a . . 
+        . . . b d d d 3 3 3 3 3 3 a a . 
+        . . b d d 3 3 3 3 3 3 3 3 3 a . 
+        . b 3 d 3 3 3 3 3 b 3 3 3 3 a b 
+        . b 3 3 3 3 3 a a 3 3 3 3 3 a b 
+        b 3 3 3 3 3 a a 3 3 3 3 d a 8 b 
+        b 3 3 3 3 b a 3 3 3 3 3 d a 8 b 
+        b 3 3 3 3 3 3 3 3 3 3 d a 8 8 c 
+        a 3 3 3 3 3 3 3 3 3 d a 8 8 8 c 
+        a 3 3 3 3 3 3 3 d d a 8 8 8 c . 
+        a a 3 3 3 d d d a a 8 8 8 c c . 
+        . c a a a a a a 8 8 8 8 c c . . 
+        . . c c b b 8 8 8 8 b c c . . . 
+        . . . c c c c c c c c . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Food)
+    food1.setVelocity(-100, 0)
+    food1.setPosition(160, randint(5, 115))
+    food1.setFlag(SpriteFlag.AutoDestroy, true)
 })
